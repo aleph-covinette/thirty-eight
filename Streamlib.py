@@ -21,9 +21,13 @@ def getDuration(filename: str):
 
 def streamFragment(afilename: str, vfilename: str):
     # Совмещает видео с музыкой и стримит на Ютуб
+    gmp4conv = '-movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"'.split()
+    add = ""
+    if vfilename[-4:] == ".gif":
+        add = gmp4conv
     vdur, adur = getDuration(f"video/{vfilename}"), getDuration(f"audio/{afilename}")
     args = ["ffmpeg", "-v", "quiet", "-stream_loop", f"{round(float(adur / vdur) + 0.5)}", "-re",
-            "-i", f"video/{vfilename}", "-ss", "0", "-t", f"{adur}", 
+            "-i", f"video/{vfilename}", *add, "-ss", "0", "-t", f"{adur}", 
             "-i", f"audio/{afilename}", "-af", f"afade=t=in:st=0:d=3,afade=t=out:st={adur-3}:d=3",
             "-f", "flv", "rtmp://a.rtmp.youtube.com/live2/" + SECRET]
     popen = subprocess.Popen(args, stdout=subprocess.PIPE)
