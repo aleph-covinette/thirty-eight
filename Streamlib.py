@@ -54,4 +54,3 @@ def streamQueue(aqueue: list, vqueue: list):
         print(f"[OK] Streaming element #{afile + 1}: {aqueue[afile]}")
         delay = getDuration(f"audio/{aqueue[afile]}") # Необходимо откалибровать
 
-streamQueue(readFiles("audio/"), readFiles("video/"))
