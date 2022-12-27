@@ -1,2 +1,2 @@
-import Streamlib
-Streamlib.streamQueue(readFiles("audio/"), readFiles("video/"))
+from Streamlib import *
+streamQueue(readFiles("audio/"), readFiles("video/"))
