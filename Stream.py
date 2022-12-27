@@ -21,10 +21,7 @@ def getDuration(filename: str):
 
 def streamFragment(afilename: str, vfilename: str):
     # Совмещает видео с музыкой и стримит на Ютуб
-    gmp4conv = '-movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"'.split()
-    add = ""
-    if vfilename[-4:] == ".gif":
-        add = gmp4conv
+    add = '-movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"'.split() if vfilename[-4:] == ".gif" else ''
     vdur, adur = getDuration(f"video/{vfilename}"), getDuration(f"audio/{afilename}")
     args = ["ffmpeg", "-v", "quiet", "-stream_loop", f"{round(float(adur / vdur) + 0.5)}", "-re",
             "-i", f"video/{vfilename}", *add, "-ss", "0", "-t", f"{adur}", 
