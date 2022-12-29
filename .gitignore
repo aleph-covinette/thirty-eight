@@ -3,3 +3,4 @@
 /setup.conf
 /app/.venv/
 /app/radiowebsite/radiowebsite/settings.py
+__pycache__/
