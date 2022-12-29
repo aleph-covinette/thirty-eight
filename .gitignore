@@ -1,4 +1,5 @@
 /video/
 /audio/
 /setup.conf
-/app/
+/app/.venv/
+/app/radiowebsite/radiowebsite/settings.py
