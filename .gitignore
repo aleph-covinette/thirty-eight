@@ -5,3 +5,5 @@
 /app/radiowebsite/radiowebsite/settings.py
 __pycache__/
 geckodriver.log
+geckodriver.exe
+/app/radiowebsite/pyvenv.cfg
