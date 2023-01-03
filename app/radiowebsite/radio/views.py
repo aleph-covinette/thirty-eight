@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+# from django.http import HttpResponse
 
 def index(request):
-    return HttpResponse("The application page loads properly! Wonderful!")
+    context = {}
+    return render(request, 'radio/index.html', context)

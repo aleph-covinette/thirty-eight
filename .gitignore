@@ -7,3 +7,7 @@ __pycache__/
 geckodriver.log
 geckodriver.exe
 /app/radiowebsite/pyvenv.cfg
+/app/radiowebsite/Scripts
+/app/radiowebsite/Launcher.py
+/app/radiowebsite/db.sqlite3
+/app/radiowebsite/Lib/
