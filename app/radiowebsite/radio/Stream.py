@@ -1,12 +1,13 @@
 from configparser import ConfigParser
 import subprocess
-from os import listdir, path
+from os import listdir, path, getcwd
 from threading import Thread
 import time
 
 conf = ConfigParser()
 conf.read("setup.conf")
-SECRET = conf["SETTINGS"]["key"]
+print(*[i for i in conf['DEFAULT']])
+SECRET = conf['SETTINGS']['key']
 
 def getDuration(filename: str):
     # Возвращает длительность файла (неточно!)
@@ -50,3 +51,6 @@ def streamQueue(aqueue: list, vqueue: list):
         nstream.start()
         print(f"[OK] Streaming element #{afile + 1}: {aqueue[afile]}")
         delay = getDuration(f"audio/{aqueue[afile]}") # Необходимо откалибровать
+
+def readMedia(directory: str = 'audio/'):
+    return [f for f in listdir('media/' + directory) if path.isfile('media/' + directory + f)]

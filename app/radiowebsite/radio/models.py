@@ -1,3 +1,11 @@
 from django.db import models
+from django.forms import ModelForm
 
-# Пока что неизвестно что с этим делать
+class AudioUpload(models.Model):
+    title = models.CharField(max_length=50)
+    file = models.FileField(upload_to='audio/')
+
+class AudioUploadForm(ModelForm):
+    class Meta():
+        model = AudioUpload
+        fields = '__all__'
