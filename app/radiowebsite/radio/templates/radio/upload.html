@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>Загрузка файлов</title>
+    </head>
+    <body>
+        <h1>Файлы!</h1>
+        <form method="post" enctype ="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="ДА">
+        </form>
+    </body>    
+</html>

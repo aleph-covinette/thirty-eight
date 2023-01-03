@@ -1,5 +1,4 @@
 /video/
-/audio/
 /setup.conf
 /app/.venv/
 /app/radiowebsite/radiowebsite/settings.py
@@ -9,5 +8,7 @@ geckodriver.exe
 /app/radiowebsite/pyvenv.cfg
 /app/radiowebsite/Scripts
 /app/radiowebsite/Launcher.py
-/app/radiowebsite/db.sqlite3
 /app/radiowebsite/Lib/
+/app/radiowebsite/media/audio/*
+/app/radiowebsite/radio/migrations/0*.py
+/app/radiowebsite/db.sqlite3

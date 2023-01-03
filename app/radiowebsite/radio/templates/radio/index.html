@@ -1,8 +1,15 @@
 <html>
     <head>
-        <title>Internet radio</title>
+        <title>Радио</title>
     </head>
     <body>
-        <h1>Application loads properly! Wow!</h1>
+        <h1>Приложение работает!</h1>
+        <h2>Загруженная музыка:</h2>
+        <ul>
+            {% for audio in audio_list %}
+                <p>{{ audio.title }}</p>
+            {% endfor %}
+            <p>Конец!</p>
+        </ul>
     </body>
 </html>
