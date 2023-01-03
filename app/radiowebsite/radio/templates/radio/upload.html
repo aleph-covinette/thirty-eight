@@ -3,11 +3,12 @@
         <title>Загрузка файлов</title>
     </head>
     <body>
-        <h1>Файлы!</h1>
+        <h1>Добавьте ваш файл:</h1>
         <form method="post" enctype ="multipart/form-data">
             {% csrf_token %}
             {{ form }}
-            <input type="submit" value="ДА">
+            <input type="submit" value="Готово">
         </form>
+        <h2><a href="/">На главную</a></h2>
     </body>    
 </html>
