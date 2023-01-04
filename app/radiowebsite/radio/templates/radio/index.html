@@ -1,17 +1,23 @@
 <html>
     <head>
-        <title>Радио</title>
+        <title>Модульное интернет-радио</title>
     </head>
     <body>
-        <h1>Приложение работает!</h1>
+        <h1>Модульное интернет-радио</h1>
         <h2>Загруженная музыка:</h2>
         <ul>
             {% for audio in audio_list %}
                 <p>{{ audio }}</p>
+                <form action="#" method="get">
+                    <input type="hidden" name="{{ audio }}"/>
+                    <button type="submit" name="audio-remove">Удалить</button>
+                </form>
             {% endfor %}
-            <p>Конец!</p>
         </ul>
-        <h2><a href="/audio/">Загрузить музыку</a></h2>
-        <h2><a href="/video/">Загрузить видео</a></h2>
+        <p><a href="/audio/">Загрузить музыку</a></p>
+        <p><a href="/video/">Загрузить видео</a></p>
+        <form action="#" method="get">
+            <button type="submit" name="stream-start">Начать стрим</button>
+        </form>
     </body>
 </html>
