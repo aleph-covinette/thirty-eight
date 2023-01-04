@@ -1,3 +1,4 @@
+import os
 from .models import FileUploadForm, FileUpload
 from django.views import generic
 from django.http import HttpResponseRedirect
@@ -8,11 +9,17 @@ class IndexView(generic.TemplateView):
 
     def get(self, request, *args, **kwargs):
         if request.GET.get('stream-start') != None:
-            print("Stream test successful")
+            print("[XIV] Кнопка запуска стрима работает отлично, но пока что бесполезна.")
             return HttpResponseRedirect('/')
         elif request.GET.get('audio-remove') != None:
-            print("[DEC] Target with the followng ID will be eliminated:", list(request.GET)[0])
-            FileUpload.objects.filter(id=list(request.GET)[0]).delete()
+            target = list(request.GET)[0]
+            target_file = FileUpload.objects.filter(id=target)[0].file.name
+            try:
+                os.remove(os.getcwd() + '/media/' + target_file)
+            except FileNotFoundError:
+                print('[XIV] Внимание! Обнаружена аномалия файловой системы. Если вы удаляли файлы вручную - больше так не делайте.')
+                pass
+            FileUpload.objects.filter(id=target).delete()
             return HttpResponseRedirect('/')
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)

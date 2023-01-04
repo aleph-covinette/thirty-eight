@@ -1,10 +1,10 @@
 from django.db import models
 from django.forms import ModelForm
+from random import randint 
 
 class FileUpload(models.Model):
     def getFiletype(instance, filename):
         return '/'.join([instance.filetype, filename])
-    
     title = models.CharField(max_length=50)
     AUDIO = 'audio'
     VIDEO = 'video'
@@ -18,7 +18,7 @@ class FileUpload(models.Model):
 class FileUploadForm(ModelForm):
     class Meta():
         model = FileUpload
-        fields = '__all__'
+        fields = ['title', 'filetype', 'file']
 
 class Configuration(models.Model):
     protocol = models.BooleanField()
