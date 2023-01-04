@@ -7,15 +7,14 @@
         <h2>Загруженная музыка:</h2>
         <ul>
             {% for audio in audio_list %}
-                <p>{{ audio }}</p>
+                <p>{{ audio.title }}</p>
                 <form action="#" method="get">
-                    <input type="hidden" name="{{ audio }}"/>
+                    <input type="hidden" name="{{ audio.id }}"/>
                     <button type="submit" name="audio-remove">Удалить</button>
                 </form>
             {% endfor %}
         </ul>
-        <p><a href="/audio/">Загрузить музыку</a></p>
-        <p><a href="/video/">Загрузить видео</a></p>
+        <p><a href="/upload/">Загрузить файлы</a></p>
         <form action="#" method="get">
             <button type="submit" name="stream-start">Начать стрим</button>
         </form>

@@ -1,20 +1,24 @@
 from django.db import models
 from django.forms import ModelForm
 
-class AudioUpload(models.Model):
+class FileUpload(models.Model):
+    def getFiletype(instance, filename):
+        return '/'.join([instance.filetype, filename])
+    
     title = models.CharField(max_length=50)
-    file = models.FileField(upload_to='audio/')
+    AUDIO = 'audio'
+    VIDEO = 'video'
+    filetypes = [
+        (AUDIO, 'Музыка'),
+        (VIDEO, 'Видео')
+    ]
+    filetype = models.CharField(choices=filetypes, default=AUDIO, max_length=10)
+    file = models.FileField(upload_to=getFiletype)
 
-class VideoUpload(models.Model):
-    title = models.CharField(max_length=50)
-    file = models.FileField(upload_to='video/')
-
-class AudioUploadForm(ModelForm):
+class FileUploadForm(ModelForm):
     class Meta():
-        model = AudioUpload
+        model = FileUpload
         fields = '__all__'
 
-class VideoUploadForm(ModelForm):
-    class Meta():
-        model = VideoUpload
-        fields = '__all__'
+class Configuration(models.Model):
+    protocol = models.BooleanField()
