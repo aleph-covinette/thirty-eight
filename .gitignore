@@ -1,6 +1,5 @@
 /video/
 /app/.venv/
-/app/radiowebsite/radiowebsite/settings.py
 __pycache__/
 geckodriver.log
 geckodriver.exe
