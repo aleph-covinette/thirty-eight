@@ -2,7 +2,6 @@ import os
 from .models import FileUploadForm, FileUpload
 from django.views import generic
 from django.http import HttpResponseRedirect
-from .Stream import readMedia, streamQueue
 
 class IndexView(generic.TemplateView):
     template_name = 'radio/index.html'
