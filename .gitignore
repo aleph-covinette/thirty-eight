@@ -12,4 +12,4 @@ geckodriver.exe
 /app/radiowebsite/radio/migrations/0*.py
 /app/radiowebsite/db.sqlite3
 /app/radiowebsite/setup.conf
-/app/radiowebsite/settings.py
+/app/radiowebsite/radiowebsite/settings.py
