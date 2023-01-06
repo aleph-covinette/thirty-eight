@@ -18,9 +18,9 @@ def streamFragment(afilename: (str, int), vfilename: (str, int), secret: str):
     # Совмещает видео с музыкой и стримит на Ютуб
     add = '-movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"'.split() if vfilename[0][-4:] == '.gif' else ''
     vdur, adur = vfilename[1], afilename[1]
-    args = ['ffmpeg', '-v', 'quiet', '-stream_loop', f'{adur // vdur}', '-re',
-            '-i', f'media/{vfilename[0]}', *add, '-i', f'media/{afilename[0]}', '-af',
-            f'afade=t=in:st=0:d=3,afade=t=out:st={vdur * (adur // vdur) - 3}:d=3',
+    args = ['ffmpeg', '-stream_loop', f'{adur // vdur}', '-re'
+            '-i', f'media/{vfilename[0]}', *add, '-i', f'media/{afilename[0]}', '-af', 
+            f'afade=t=in:st=0:d=3,afade=t=out:st={vdur * (adur // vdur) - 3}:d=3', '-codec:v', 'libx264', '-profile:v', 'high', '-preset', 'slow', 
             '-ss', '0', '-t', f'{vdur * (adur // vdur)}',
             '-f', 'flv', 'rtmp://a.rtmp.youtube.com/live2/' + secret]
     popen = subprocess.Popen(args, stdout=subprocess.PIPE)
