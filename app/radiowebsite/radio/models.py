@@ -20,5 +20,14 @@ class FileUploadForm(ModelForm):
         fields = '__all__'
 
 class Configuration(models.Model):
-    # Пока что не нужно
-    protocol = models.BooleanField()
+    RTMP = 'yt_rtmp'
+    protocols = [
+        (RTMP, 'RTMP (YouTube)')
+    ]
+    protocol = models.CharField(choices=protocols, default=RTMP, max_length=10, verbose_name='Протокол')
+    streamkey = models.CharField(max_length=24, default='xxxx-xxxx-xxxx-xxxx-xxxx', verbose_name='Ключ стрима')
+
+class ConfigurationForm(ModelForm):
+    class Meta():
+        model = Configuration
+        fields = '__all__'

@@ -1,5 +1,5 @@
 import os
-from .models import FileUploadForm, FileUpload
+from .models import FileUploadForm, FileUpload, ConfigurationForm, Configuration
 from django.views import generic
 from django.http import HttpResponseRedirect
 
@@ -8,7 +8,9 @@ class IndexView(generic.TemplateView):
 
     def get(self, request, *args, **kwargs):
         if request.GET.get('stream-start') != None:
-            print("[XIV] Кнопка запуска стрима работает отлично, но пока что бесполезна.")
+            streamconfigs = Configuration.objects.all()
+            for i in streamconfigs:
+                print('[XIV] Обнаружена конфигурация стрима, ключ: ' + i.streamkey)
             return HttpResponseRedirect('/')
         elif request.GET.get('audio-remove') != None:
             target = list(request.GET)[0]
@@ -17,7 +19,6 @@ class IndexView(generic.TemplateView):
                 os.remove(os.getcwd() + '/media/' + target_file)
             except FileNotFoundError:
                 print('[XIV] Внимание! Обнаружена аномалия файловой системы. Если вы удаляли файлы вручную - больше так не делайте.')
-                pass
             FileUpload.objects.filter(id=target).delete()
             return HttpResponseRedirect('/')
         context = self.get_context_data(**kwargs)
@@ -34,5 +35,15 @@ class FileUploadFormView(generic.FormView):
     success_url = '/'
 
     def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+class ConfigurationEditView(generic.FormView):
+    form_class = ConfigurationForm
+    template_name = 'radio/config.html'
+    success_url = '/'
+
+    def form_valid(self, form):
+        Configuration.objects.all().delete()
         form.save()
         return super().form_valid(form)

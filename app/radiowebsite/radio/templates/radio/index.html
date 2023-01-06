@@ -5,16 +5,18 @@
     <body>
         <h1>Модульное интернет-радио</h1>
         <h2>Загруженная музыка:</h2>
+        <p><i>(После загрузки не забудьте ввести ключ стрима в настройках!)</i></p>
         <ul>
             {% for audio in audio_list %}
-                <p>{{ audio.title }}</p>
                 <form action="#" method="get">
+                    <span>{{ audio.title }}</span>
                     <input type="hidden" name="{{ audio.id }}"/>
-                    <button type="submit" name="audio-remove">Удалить</button>
+                    <input type="submit" name="audio-remove" value="Удалить">
                 </form>
             {% endfor %}
         </ul>
         <p><a href="/upload/">Загрузить файлы</a></p>
+        <p><a href="/config/">Настройки</a></p>
         <form action="#" method="get">
             <button type="submit" name="stream-start">Начать стрим</button>
         </form>

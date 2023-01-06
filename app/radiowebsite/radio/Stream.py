@@ -6,7 +6,6 @@ import time
 
 conf = ConfigParser()
 conf.read("setup.conf")
-print(*[i for i in conf['DEFAULT']])
 SECRET = conf['SETTINGS']['key']
 
 def getDuration(filename: str):
@@ -23,10 +22,10 @@ def getDuration(filename: str):
 def streamFragment(afilename: str, vfilename: str):
     # Совмещает видео с музыкой и стримит на Ютуб
     add = '-movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"'.split() if vfilename[-4:] == ".gif" else ''
-    vdur, adur = getDuration(f"video/{vfilename}"), getDuration(f"audio/{afilename}")
+    vdur, adur = getDuration(f"media/video/{vfilename}"), getDuration(f"media/audio/{afilename}")
     args = ["ffmpeg", "-v", "quiet", "-stream_loop", f"{round(float(adur / vdur) + 0.5)}", "-re",
-            "-i", f"video/{vfilename}", *add, "-ss", "0", "-t", f"{adur}", 
-            "-i", f"audio/{afilename}", "-af", f"afade=t=in:st=0:d=3,afade=t=out:st={adur-3}:d=3",
+            "-i", f"media/video/{vfilename}", *add, "-ss", "0", "-t", f"{adur}", 
+            "-i", f"media/audio/{afilename}", "-af", f"afade=t=in:st=0:d=3,afade=t=out:st={adur-3}:d=3",
             "-f", "flv", "rtmp://a.rtmp.youtube.com/live2/" + SECRET]
     popen = subprocess.Popen(args, stdout=subprocess.PIPE)
     popen.wait()
@@ -43,14 +42,11 @@ def streamQueue(aqueue: list, vqueue: list):
     sstream = Thread(target=streamFragment, args=(aqueue[0], vqueue[0],))
     sstream.start()
     print(f"[OK] Streaming element #1: {aqueue[0]}")
-    delay = getDuration(f"audio/{aqueue[0]}") - 2.5 # Необходимо откалибровать
+    delay = getDuration(f"media/audio/{aqueue[0]}") - 2.5 # Необходимо откалибровать
     for afile in range(1, len(aqueue)):
         print(f"[INFO] Delaying next element by {delay} seconds")
         time.sleep(delay)
         nstream = Thread(target=streamFragment, args=(aqueue[afile], vqueue[0],))
         nstream.start()
         print(f"[OK] Streaming element #{afile + 1}: {aqueue[afile]}")
-        delay = getDuration(f"audio/{aqueue[afile]}") # Необходимо откалибровать
-
-def readMedia(directory: str = 'audio/'):
-    return [f for f in listdir('media/' + directory) if path.isfile('media/' + directory + f)]
+        delay = getDuration(f"media/audio/{aqueue[afile]}") # Необходимо откалибровать
