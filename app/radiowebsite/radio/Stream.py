@@ -3,6 +3,17 @@ from os import listdir, path, getcwd
 from threading import Thread
 import time
 
+def getDuration(filename: str):
+    # Вычисляет длительность файла
+    popen = subprocess.Popen(
+        ("ffprobe", "-v", "quiet", "-show_entries", "format=duration", "-i", 'media/' + filename),
+    stdout=subprocess.PIPE)
+    popen.wait()
+    output = popen.stdout.read()
+    output = str(output)
+    output = output[output.find("duration") + len("duration") + 1: output.rfind("FORMAT") - 6]
+    return int(round(float(output) + 0.5))
+
 def streamFragment(afilename: str, vfilename: str, secret: str):
     # Совмещает видео с музыкой и стримит на Ютуб
     add = '-movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"'.split() if vfilename[0][-4:] == ".gif" else ''

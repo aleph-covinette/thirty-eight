@@ -1,6 +1,7 @@
 from django.db import models
 from django.forms import ModelForm
 
+
 class FileUpload(models.Model):
     def getFiletype(instance, filename):
         return '/'.join([instance.filetype, filename])
@@ -15,10 +16,12 @@ class FileUpload(models.Model):
     filetype = models.CharField(choices=filetypes, default=AUDIO, max_length=10, verbose_name='Тип файла')
     file = models.FileField(upload_to=getFiletype, verbose_name='Файл')
 
+
 class FileUploadForm(ModelForm):
     class Meta():
         model = FileUpload
         fields = ['title', 'filetype', 'file']
+
 
 class Configuration(models.Model):
     RTMP = 'yt_rtmp'
@@ -27,6 +30,7 @@ class Configuration(models.Model):
     ]
     protocol = models.CharField(choices=protocols, default=RTMP, max_length=10, verbose_name='Протокол')
     streamkey = models.CharField(max_length=24, default='xxxx-xxxx-xxxx-xxxx-xxxx', verbose_name='Ключ стрима')
+
 
 class ConfigurationForm(ModelForm):
     class Meta():
