@@ -4,20 +4,30 @@
     </head>
     <body>
         <h1>Модульное интернет-радио</h1>
-        <h2>Загруженная музыка:</h2>
-        <p><i>(После загрузки не забудьте ввести ключ стрима в настройках!)</i></p>
+        <h3>Загруженная музыка:</h3>
         <ul>
             {% for audio in audio_list %}
                 <form action="#" method="get">
                     <span>{{ audio.title }}</span>
                     <input type="hidden" name="{{ audio.id }}"/>
-                    <input type="submit" name="audio-remove" value="Удалить">
+                    <input type="submit" name="file-remove" value="Удалить">
                 </form>
+            {% endfor %}
+        </ul>
+        <h3>Загруженные видео:</h3>
+        <ul>
+            {% for video in video_list %}
+            <form action="#" method="get">
+                <span>{{ video.title }}</span>
+                <input type="hidden" name="{{ video.id }}"/>
+                <input type="submit" name="file-remove" value="Удалить">
+            </form>
             {% endfor %}
         </ul>
         <p><a href="/upload/">Загрузить файлы</a></p>
         <p><a href="/config/">Настройки</a></p>
         <form action="#" method="get">
+            <p><i>(Не забудьте ввести ключ стрима в настройках!)</i></p>
             <button type="submit" name="stream-start">Начать стрим</button>
         </form>
     </body>

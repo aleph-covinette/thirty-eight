@@ -12,7 +12,7 @@ class IndexView(generic.TemplateView):
             for i in streamconfigs:
                 print('[XIV] Обнаружена конфигурация стрима, ключ: ' + i.streamkey)
             return HttpResponseRedirect('/')
-        elif request.GET.get('audio-remove') != None:
+        elif request.GET.get('file-remove') != None:
             target = list(request.GET)[0]
             target_file = FileUpload.objects.filter(id=target)[0].file.name
             try:
@@ -26,7 +26,8 @@ class IndexView(generic.TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['audio_list'] = FileUpload.objects.all()
+        context['audio_list'] = FileUpload.objects.filter(filetype='audio')
+        context['video_list'] = FileUpload.objects.filter(filetype='video')
         return context
     
 class FileUploadFormView(generic.FormView):

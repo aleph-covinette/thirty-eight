@@ -1,12 +1,7 @@
-from configparser import ConfigParser
 import subprocess
 from os import listdir, path, getcwd
 from threading import Thread
 import time
-
-conf = ConfigParser()
-conf.read("setup.conf")
-SECRET = conf['SETTINGS']['key']
 
 def getDuration(filename: str):
     # Возвращает длительность файла (неточно!)
