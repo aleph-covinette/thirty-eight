@@ -1,5 +1,8 @@
 import os
+import subprocess
+from threading import Thread
 from .models import FileUploadForm, FileUpload, ConfigurationForm, Configuration
+from .Stream import streamQueue
 from django.views import generic
 from django.http import HttpResponseRedirect
 
@@ -9,8 +12,11 @@ class IndexView(generic.TemplateView):
     def get(self, request, *args, **kwargs):
         if request.GET.get('stream-start') != None:
             streamconfigs = Configuration.objects.all()
-            for i in streamconfigs:
-                print('[XIV] Обнаружена конфигурация стрима, ключ: ' + i.streamkey)
+            key = streamconfigs[0].streamkey
+            aqueue = [(i.file.name, i.duration) for i in FileUpload.objects.filter(filetype='audio')]
+            vqueue = [(i.file.name, i.duration) for i in FileUpload.objects.filter(filetype='video')]
+            nstream = Thread(target=streamQueue, args=(aqueue, vqueue, key,))
+            nstream.start()
             return HttpResponseRedirect('/')
         elif request.GET.get('file-remove') != None:
             target = list(request.GET)[0]
@@ -37,6 +43,17 @@ class FileUploadFormView(generic.FormView):
 
     def form_valid(self, form):
         form.save()
+        target = FileUpload.objects.filter(flength=-1).get()
+        popen = subprocess.Popen(
+        ("ffprobe", "-v", "quiet", "-show_entries", "format=duration", "-i", 'media/' + target.file.name),
+        stdout=subprocess.PIPE)
+        popen.wait()
+        output = popen.stdout.read()
+        output = str(output)
+        output = output[output.find("duration") + len("duration") + 1: output.rfind("FORMAT") - 6]
+        target.duration = int(round(float(output) + 0.5))
+        print('[XIV] Target length calculated:', target.duration)
+        target.save()
         return super().form_valid(form)
 
 class ConfigurationEditView(generic.FormView):

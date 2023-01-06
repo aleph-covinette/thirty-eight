@@ -5,6 +5,7 @@ class FileUpload(models.Model):
     def getFiletype(instance, filename):
         return '/'.join([instance.filetype, filename])
     title = models.CharField(max_length=50, verbose_name='Название')
+    duration = models.IntegerField(default=-1)
     AUDIO = 'audio'
     VIDEO = 'video'
     filetypes = [
@@ -17,7 +18,7 @@ class FileUpload(models.Model):
 class FileUploadForm(ModelForm):
     class Meta():
         model = FileUpload
-        fields = '__all__'
+        fields = ['title', 'filetype', 'file']
 
 class Configuration(models.Model):
     RTMP = 'yt_rtmp'
